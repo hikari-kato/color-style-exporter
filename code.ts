@@ -106,7 +106,26 @@ const dartStyleMapping: { [key: string]: string } = {
   'inverse-surface': 'inverseSurface',
   'inverse-on-surface': 'onInverseSurface',
   'inverse-primary': 'inversePrimary',
-  'surface-tint': 'surfaceTint'
+  'surface-tint': 'surfaceTint',
+  'primary-fixed': 'primaryFixed',
+  'on-primary-fixed': 'onPrimaryFixed',
+  'primary-fixed-dim': 'primaryFixedDim',
+  'on-primary-fixed-variant': 'onPrimaryFixedVariant',
+  'secondary-fixed': 'secondaryFixed',
+  'on-secondary-fixed': 'onSecondaryFixed',
+  'secondary-fixed-dim': 'secondaryFixedDim',
+  'on-secondary-fixed-variant': 'onSecondaryFixedVariant',
+  'tertiary-fixed': 'tertiaryFixed',
+  'on-tertiary-fixed': 'onTertiaryFixed',
+  'tertiary-fixed-dim': 'tertiaryFixedDim',
+  'on-tertiary-fixed-variant': 'onTertiaryFixedVariant',
+  'surface-dim': 'surfaceDim',
+  'surface-bright': 'surfaceBright',
+  'surface-container-lowest': 'surfaceContainerLowest',
+  'surface-container-low': 'surfaceContainerLow',
+  'surface-container': 'surfaceContainer',
+  'surface-container-high': 'surfaceContainerHigh',
+  'surface-container-highest': 'surfaceContainerHighest'
 };
 
 // RGBをJSONのHex値に変換
