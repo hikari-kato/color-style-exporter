@@ -136,30 +136,71 @@ figma.ui.onmessage = async (msg) => {
     console.log('Message received:', msg.type);
     const localStyles = figma.getLocalPaintStyles();
     if (msg.type === 'generate-json') {
-        const primaryColor = getColorByStyleName(localStyles, 'M3/sys/light/primary');
-        const colorExport = {
-            description: "Material Theme JSON",
-            seed: primaryColor,
-            coreColors: {
+        try {
+            const colorScheme = {
+                brightness: "light",
                 primary: getColorByStyleName(localStyles, 'M3/sys/light/primary'),
+                surfaceTint: getColorByStyleName(localStyles, 'M3/sys/light/surface-tint'),
+                onPrimary: getColorByStyleName(localStyles, 'M3/sys/light/on-primary'),
+                primaryContainer: getColorByStyleName(localStyles, 'M3/sys/light/primary-container'),
+                onPrimaryContainer: getColorByStyleName(localStyles, 'M3/sys/light/on-primary-container'),
                 secondary: getColorByStyleName(localStyles, 'M3/sys/light/secondary'),
+                onSecondary: getColorByStyleName(localStyles, 'M3/sys/light/on-secondary'),
+                secondaryContainer: getColorByStyleName(localStyles, 'M3/sys/light/secondary-container'),
+                onSecondaryContainer: getColorByStyleName(localStyles, 'M3/sys/light/on-secondary-container'),
                 tertiary: getColorByStyleName(localStyles, 'M3/sys/light/tertiary'),
+                onTertiary: getColorByStyleName(localStyles, 'M3/sys/light/on-tertiary'),
+                tertiaryContainer: getColorByStyleName(localStyles, 'M3/sys/light/tertiary-container'),
+                onTertiaryContainer: getColorByStyleName(localStyles, 'M3/sys/light/on-tertiary-container'),
                 error: getColorByStyleName(localStyles, 'M3/sys/light/error'),
-                neutral: getColorByStyleName(localStyles, 'M3/ref/neutral/neutral40'),
-                neutralVariant: getColorByStyleName(localStyles, 'M3/ref/neutral-variant/neutral-variant40')
-            },
-            extendedColors: [],
-            schemes: {
-                light: {}
-            }
-        };
-        Object.entries(lightSchemeMapping).forEach(([key, styleName]) => {
-            colorExport.schemes.light[key] = getColorByStyleName(localStyles, styleName);
-        });
-        figma.ui.postMessage({
-            type: 'response',
-            data: JSON.stringify(colorExport, null, 2)
-        });
+                onError: getColorByStyleName(localStyles, 'M3/sys/light/on-error'),
+                errorContainer: getColorByStyleName(localStyles, 'M3/sys/light/error-container'),
+                onErrorContainer: getColorByStyleName(localStyles, 'M3/sys/light/on-error-container'),
+                background: getColorByStyleName(localStyles, 'M3/sys/light/background'),
+                onBackground: getColorByStyleName(localStyles, 'M3/sys/light/on-background'),
+                surface: getColorByStyleName(localStyles, 'M3/sys/light/surface'),
+                onSurface: getColorByStyleName(localStyles, 'M3/sys/light/on-surface'),
+                surfaceVariant: getColorByStyleName(localStyles, 'M3/sys/light/surface-variant'),
+                onSurfaceVariant: getColorByStyleName(localStyles, 'M3/sys/light/on-surface-variant'),
+                outline: getColorByStyleName(localStyles, 'M3/sys/light/outline'),
+                outlineVariant: getColorByStyleName(localStyles, 'M3/sys/light/outline-variant'),
+                shadow: getColorByStyleName(localStyles, 'M3/sys/light/shadow'),
+                scrim: getColorByStyleName(localStyles, 'M3/sys/light/scrim'),
+                inverseSurface: getColorByStyleName(localStyles, 'M3/sys/light/inverse-surface'),
+                inverseOnSurface: getColorByStyleName(localStyles, 'M3/sys/light/inverse-on-surface'),
+                inversePrimary: getColorByStyleName(localStyles, 'M3/sys/light/inverse-primary'),
+                primaryFixed: getColorByStyleName(localStyles, 'M3/sys/light/primary-fixed'),
+                onPrimaryFixed: getColorByStyleName(localStyles, 'M3/sys/light/on-primary-fixed'),
+                primaryFixedDim: getColorByStyleName(localStyles, 'M3/sys/light/primary-fixed-dim'),
+                onPrimaryFixedVariant: getColorByStyleName(localStyles, 'M3/sys/light/on-primary-fixed-variant'),
+                secondaryFixed: getColorByStyleName(localStyles, 'M3/sys/light/secondary-fixed'),
+                onSecondaryFixed: getColorByStyleName(localStyles, 'M3/sys/light/on-secondary-fixed'),
+                secondaryFixedDim: getColorByStyleName(localStyles, 'M3/sys/light/secondary-fixed-dim'),
+                onSecondaryFixedVariant: getColorByStyleName(localStyles, 'M3/sys/light/on-secondary-fixed-variant'),
+                tertiaryFixed: getColorByStyleName(localStyles, 'M3/sys/light/tertiary-fixed'),
+                onTertiaryFixed: getColorByStyleName(localStyles, 'M3/sys/light/on-tertiary-fixed'),
+                tertiaryFixedDim: getColorByStyleName(localStyles, 'M3/sys/light/tertiary-fixed-dim'),
+                onTertiaryFixedVariant: getColorByStyleName(localStyles, 'M3/sys/light/on-tertiary-fixed-variant'),
+                surfaceDim: getColorByStyleName(localStyles, 'M3/sys/light/surface-dim'),
+                surfaceBright: getColorByStyleName(localStyles, 'M3/sys/light/surface-bright'),
+                surfaceContainerLowest: getColorByStyleName(localStyles, 'M3/sys/light/surface-container-lowest'),
+                surfaceContainerLow: getColorByStyleName(localStyles, 'M3/sys/light/surface-container-low'),
+                surfaceContainer: getColorByStyleName(localStyles, 'M3/sys/light/surface-container'),
+                surfaceContainerHigh: getColorByStyleName(localStyles, 'M3/sys/light/surface-container-high'),
+                surfaceContainerHighest: getColorByStyleName(localStyles, 'M3/sys/light/surface-container-highest')
+            };
+            figma.ui.postMessage({
+                type: 'response',
+                data: JSON.stringify(colorScheme, null, 2)
+            });
+        }
+        catch (error) { // エラーの型を指定
+            console.error('Error generating JSON:', error);
+            figma.ui.postMessage({
+                type: 'response',
+                data: `// Error generating JSON: ${(error === null || error === void 0 ? void 0 : error.message) || 'An unknown error occurred'}`
+            });
+        }
     }
     else if (msg.type === 'generate-dart') {
         const m3Styles = localStyles.filter(style => style.name.startsWith('M3/sys/light/'));
